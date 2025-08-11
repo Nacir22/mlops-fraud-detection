@@ -1,0 +1,31 @@
+name: mlops-fraud
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - pandas
+      - numpy
+      - scikit-learn
+      - xgboost
+      - mlflow>=2.12.0
+      - boto3
+      - minio
+      - redis
+      - feast>=0.43.0
+      - fastapi
+      - uvicorn[standard]
+      - streamlit
+      - bentoml>=1.2.0
+      - evidently>=0.4.19
+      - kfp>=2.7.0
+      - kubernetes
+      - python-dotenv
+      - joblib
+      - pydantic
+      - requests
+      - pytest
+      - black
+      - flake8
+      - pre-commit

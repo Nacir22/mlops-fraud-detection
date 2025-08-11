@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# Data
+data/processed/
+reports/
+mlruns/
+
+# OS
+.DS_Store
+
+# Docker
+*.log
+
+# Bento
+bento/
