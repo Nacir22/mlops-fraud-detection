@@ -113,6 +113,9 @@ This will:
 - log metrics/params/artifacts to MLflow
 - register the model in MLflow Model Registry
 
+
+![MLflow Server Screenshot](docs/mlflow_screenshot.png)
+
 ### 2.6 Feast (Feature store)
 Generate features and apply Feast registry:
 ```bash
@@ -131,6 +134,7 @@ uvicorn src.serving.fastapi_app:app --host 0.0.0.0 --port 8000 --reload
 streamlit run src/ui/streamlit_app.py
 ```
 
+![Streamlit UI Screenshot](docs/fastapi_screenshot.png)
 ### 2.8 BentoML (optional service packaging)
 ```bash
 bentoml build
