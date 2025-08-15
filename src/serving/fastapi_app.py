@@ -6,7 +6,7 @@ import pandas as pd
 
 app = FastAPI(title="Fraud Detection API")
 
-MODEL_URI = os.getenv("MODEL_URI", "models:/fraud_xgb/Production")
+MODEL_URI = os.getenv("MODEL_URI", "models:/fraud_rf/Production")
 
 class Txn(BaseModel):
     amount: float

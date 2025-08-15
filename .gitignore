@@ -1,19 +1,36 @@
-# Python
-__pycache__/
-*.pyc
-.venv/
-.env
-
-# Data
+# === Données & artefacts volumineux ===
+data/raw/*.csv
 data/processed/
 reports/
 mlruns/
-
-# OS
-.DS_Store
-
-# Docker
+bento/
+artifacts/
+models/
+*.parquet
+*.feather
+*.zip
 *.log
 
-# Bento
-bento/
+# === Environnements & secrets ===
+.venv/
+.env
+*.env
+*.pem
+*.key
+
+# === MLflow local (backend SQLite) ===
+mlflow.db
+
+# === Notebooks ===
+.ipynb_checkpoints/
+
+# === Python ===
+__pycache__/
+*.pyc
+*.pkl
+
+# === OS / Éditeurs ===
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

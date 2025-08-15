@@ -1,8 +1,11 @@
 project: fraud_features
 provider: local
+
 online_store:
-  type: redis
-  connection_string: "localhost:6379,db=0"
+  type: sqlite
+  path: ./online.db
+
 offline_store:
   type: file
+
 entity_key_serialization_version: 2
