@@ -71,7 +71,8 @@ jobs:
       - name: Install Evidently stack
         run: |
           pip install --upgrade pip
-          pip install "pandas>=1.5" "pyarrow>=11" "evidently>=0.7.14"
+          pip install "pandas>=1.5" "pyarrow>=11" "evidently==0.4.12"
+
 
       # Génère 2 petits jeux synthétiques + rapport Evidently (0.7.14: Report + metrics.DataDrift)
       - name: Run drift report (synthetic)
@@ -79,8 +80,8 @@ jobs:
           python - << 'PY'
           import numpy as np, pandas as pd
           from pathlib import Path
-          from evidently import Report
-          from evidently.metrics import DataDrift
+          from evidently.report import Report
+          from evidently.metrics import DataDriftPreset
 
           rng = np.random.default_rng(42)
           n = 5000
@@ -90,17 +91,18 @@ jobs:
               "step": rng.integers(0, 24*7, n),
           })
           cur = pd.DataFrame({
-              "amount": rng.normal(110, 30, n),       # léger drift
-              "balance_delta": rng.normal(5, 70, n),  # léger drift
+              "amount": rng.normal(110, 30, n),
+              "balance_delta": rng.normal(5, 70, n),
               "step": rng.integers(0, 24*7, n),
           })
 
-          report = Report(metrics=[DataDrift()])
+          report = Report(metrics=[DataDriftPreset()])
           report.run(reference_data=ref, current_data=cur)
           Path("reports").mkdir(parents=True, exist_ok=True)
           report.save_html("reports/drift_ci.html")
           print("OK -> reports/drift_ci.html")
           PY
+
 
       - name: Upload drift report artifact
         uses: actions/upload-artifact@v4
