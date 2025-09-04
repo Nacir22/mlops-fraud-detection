@@ -71,7 +71,9 @@ jobs:
       - name: Install Evidently stack
         run: |
           pip install --upgrade pip
-          pip install "pandas>=1.5" "pyarrow>=11" "evidently==0.4.12"
+          pip install "pandas>=1.5" "pyarrow>=11"
+          pip install "pydantic<2" "evidently==0.4.12"
+
 
 
       # Génère 2 petits jeux synthétiques + rapport Evidently (0.7.14: Report + metrics.DataDrift)
@@ -102,6 +104,7 @@ jobs:
           report.save_html("reports/drift_ci.html")
           print("OK -> reports/drift_ci.html")
           PY
+
 
 
       - name: Upload drift report artifact
