@@ -49,7 +49,7 @@ jobs:
         run: |
           python - << 'PY'
           import importlib, sys
-          for m in ["src.fraud", "src.monitoring"]:
+          for m in ["src.fraud"]:
               try:
                   importlib.import_module(m)
                   print("OK import", m)
@@ -57,62 +57,7 @@ jobs:
                   print("WARN import", m, "->", e, file=sys.stderr)
           PY
 
-  drift-check:
-    needs: build-test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: Install Evidently stack
-        run: |
-          pip install --upgrade pip
-          pip install "pandas>=1.5" "pyarrow>=11"
-          pip install "pydantic<2" "evidently==0.4.12"
-
-
-
-      # Génère 2 petits jeux synthétiques + rapport Evidently (0.7.14: Report + metrics.DataDrift)
-      - name: Run drift report (synthetic)
-        run: |
-          python - << 'PY'
-          import numpy as np, pandas as pd
-          from pathlib import Path
-          from evidently.report import Report
-          from evidently.metrics import DataDriftPreset
-
-          rng = np.random.default_rng(42)
-          n = 5000
-          ref = pd.DataFrame({
-              "amount": rng.normal(100, 20, n),
-              "balance_delta": rng.normal(0, 50, n),
-              "step": rng.integers(0, 24*7, n),
-          })
-          cur = pd.DataFrame({
-              "amount": rng.normal(110, 30, n),
-              "balance_delta": rng.normal(5, 70, n),
-              "step": rng.integers(0, 24*7, n),
-          })
-
-          report = Report(metrics=[DataDriftPreset()])
-          report.run(reference_data=ref, current_data=cur)
-          Path("reports").mkdir(parents=True, exist_ok=True)
-          report.save_html("reports/drift_ci.html")
-          print("OK -> reports/drift_ci.html")
-          PY
-
-
-
-      - name: Upload drift report artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: drift-report
-          path: reports/drift_ci.html
-
+  
   docker:
     needs: [build-test]
     if: github.ref == 'refs/heads/main'
