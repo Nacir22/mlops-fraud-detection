@@ -177,6 +177,3 @@ Copy `.env.example` -> `.env` and adjust:
 
 ---
 
-## 5) Notes
-- This scaffold balances simplicity and production concerns. You can swap components (e.g., Postgres for MLflow backend, S3 for artifacts, external Redis, etc.).
-- For Kubeflow, ensure you have KFP SDK access to your cluster and a proper service account configured.
